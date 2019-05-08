@@ -25,6 +25,21 @@ Why do we all use extents instead of ranges?  Because **extents are better than 
 This new feature in C# 8.0 is being designed with a strong focus on ranges when in fact extents are better and the standard practice. 
 
 
+## Awkward to iterate in reverse
+A standard "for" loop begins at zero like the following example.  The proposed 1-based design of the `^` operator makes it awkward to iterate in reverse order because it requires that you add 1.
+```
+char[] data = ...;
+int length = data.Length;
+for (int i = 0; i < length; i++)
+{
+    char normalOrder = data[i];
+    char reverseOrder = data[^(i + 1)];
+    char reverseOrder = data.GetItemReverse(i); // simple; could be supported.
+}
+```
+This iteration example suggests that a reverse-0-based design works better than a reverse-1-based design.
+
+
 ## Pascal-style ordinals/indexes
 The current version of the proposal uses Pascal-style ordinals/indexes.  Yes it does.  Really, it does.  Think about it.  It's the indexing scheme of [the Pascal language](https://en.wikipedia.org/wiki/Pascal_(programming_language)).  It is.  Pascal.  But why on earth should Pascal-style ordinals/indexes be resurrected?  In Pascal, the first element/item was 1, but this proved to be problematic, so C changed the idea to first=0.  This issue is already settled for a very long time:  The consensus is that the slim advantage of first=1 is clearly outweighed by the disadvantages, thus first=0 is the winning design, indisputably.  This is not a debatable issue anymore.  It was laid to rest long ago.
 
