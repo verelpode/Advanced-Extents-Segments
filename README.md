@@ -9,7 +9,8 @@ This is a rough sketch and I've been forced to rush it, thus I'm sure it contain
 int myOffset = ...;
 int myLimitOffset = ...;
 Segment<char> mySegment = ...;
-Segment<char> resultSegment = mySegment[myOffset from start until element is CharMatchers.VerticalWhiteSpace && element != '\u2029' with fence myLimitOffset with maxLength 5000*2];
+Segment<char> resultSegment = mySegment[myOffset from start until element is CharMatchers.VerticalWhiteSpace 
+     && element != '\u2029' with fence myLimitOffset with maxLength 5000*2];
 ```
 
 The above example does this:  Beginning with the `Segment<char>` (or `Span<char>` or `Array` or `List<char>`) named "mySegment", make a sub-segment of mySegment (alternatively an Extent alone) that begins at offset "myOffset" from the start, and continues until an element (char) is a vertical whitespace character and does not equal "paragraph separator" (U+2029), but do not extend the Extent or Segment any further than "myLimitOffset", and limit `Extent.Length` to 5000*2.
@@ -17,7 +18,8 @@ The above example does this:  Beginning with the `Segment<char>` (or `Span<char>
 If you want to get the Extent (offset and length) alone without making a new `Segment<T>` corresponding to that Extent, then you can write:
 
 ```
-Extent x = [mySegment at myOffset from start until element is CharMatchers.VerticalWhiteSpace && element != '\u2029' with fence myLimitOffset with maxLength 5000*2];
+Extent x = [mySegment at myOffset from start until element is CharMatchers.VerticalWhiteSpace 
+     && element != '\u2029' with fence myLimitOffset with maxLength 5000*2];
 ```
 
 Relative offsets:  The "from" keyword makes an offset relative to something else.  The default is "from start" thus writing "myOffset from start" is the same as writing simply "myOffset" without any "from" keyword.  Supported "from" keywords include:
