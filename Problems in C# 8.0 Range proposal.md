@@ -1,4 +1,4 @@
-# Problems with the C# 8.0 Range proposal as of 2019/05/08
+# Problems in the C# 8.0 Range proposal as of 2019/05/08
 
 This list is not yet complete, but for starters:
 
