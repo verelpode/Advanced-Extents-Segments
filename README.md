@@ -1,4 +1,4 @@
-# Advanced-Extents-Segments
+# Advanced Extents & Segments Proposal
 Rough sketch -- Version 1 (2019/05/07)
 
 The potential for advanced Extents and Segments in C# is exciting and under-estimated.  I am writing this proposal because I feel that the current version of the C# 8.0 Range proposal is not yet ready for release.  It would be sad if a half-baked version is released prematurely and set in concrete forever.  Although future extensions are possible in C# 8.5, this becomes difficult when it breaks compatibility with the syntax and design in C# 8.0, therefore it would be best to design the advanced scenarios NOW not later.
