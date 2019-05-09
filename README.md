@@ -1,5 +1,5 @@
 # Advanced Extents & Segments Proposal
-Rough sketch -- Version 1 (2019/05/07)
+Rough sketch -- Version 1a (2019/05/10)
 
 The potential for advanced Extents and Segments in C# is exciting and under-estimated.  I am writing this proposal because I feel that the current version of the C# 8.0 Range proposal is not yet ready for release.  It would be sad if a half-baked version is released prematurely and set in concrete forever.  Although future extensions are possible in C# 8.5, this becomes difficult when it breaks compatibility with the syntax and design in C# 8.0, therefore it would be best to design the advanced scenarios NOW not later.
 
@@ -200,6 +200,18 @@ Extent negativeOrdinal = -(new Extent(5, 1));
 ```
 
 Likewise `~[5]` invokes the `operator ~ (Extent)` overload method that is defined in struct Extent.
+
+
+## Reverse-1-based ordinals / Negative ordinals
+V1 of my proposal _attempted_ to support the reverse-1-based ordinals.  This feature is against my own opinion -- I think this feature is nonsense -- but I'm doing it anyway out of _respect_ for the opinions of some other people who claim it is a justifiable feature.  The question is, how can the following problem be eliminated:  Apparently the current design of `^0` will trigger never-ending complaints over years or decades because of the inconsistent introduction of 1-based ordinals into a language that was forever 0-based.
+
+How can this problem be eliminated?  One possibility is to design it with the principle that subtraction means subtraction.  It's hard to complain about a design where subtraction means subtraction.  People cannot complain that it's confusing when the principle is so simple that subtraction means subtraction.
+
+If the syntax `[5]` produces an instance of `System.Extent` or `System.Range`, and if the Extent or Range struct includes a normal C# operator-overload-method for the arity-1 minus operator (meaning `static Extent operator - (Extent) { ... }`), then the syntax `-[5]` invokes the operator-overload-method in the standard manner, which returns an Extent or Range that represents the equivalent of `Array.Length - 5`.
+
+The upcoming decades of never-ending complaints are prevented because it's not confusing anymore when the `-` operator means `-`.
+
+So that's one problem hopefully eliminated.  Next, the second problem needs to be eliminated.  The second problem is what @lostmsu mentioned:  The majority of the reason for this feature to exist is academic scenarios.  The added complexity and performance penalty of supporting negative ordinals may well outweigh the benefit in real-world scenarios (if any meaningful amount of benefit exists at all).  A method of addressing this problem is to collect a good quantity of real examples from real software and then perform an analysis of the cost versus benefit in each example when it is converted to use negative ordinals.
 
 
 ## Iteration in reverse order
