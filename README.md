@@ -229,17 +229,31 @@ I'm searching for ways to eliminate the above-mentioned problem because, as a ge
 
 
 ## Iteration in reverse order
-Example:
+Example of a decent design:
 ```
 Segment<char> seg = ...;
 int len = seg.Length;
 for (int i = 0; i < len; i++)
 {
-	char ch = seg.InReverse[i];
-	// Also supported:
-	char ch = seg.GetItemReverse(i);
+    char ch = seg.InReverse[i];
+    // And/or:
+    char ch = seg.GetItemReverse(i);
 }
 ```
+
+A standard "for" loop begins at zero like the following example.  The proposed 1-based design of the `^` operator makes it awkward to iterate in reverse order because it requires that you add 1.
+```
+char[] data = ...;
+int length = data.Length;
+for (int i = 0; i < length; i++)
+{
+    char normalOrder = data[i];
+    char reverseOrder = data[^(i + 1)];
+    char reverseOrder = data.GetItemReverse(i); // simple; could be supported.
+}
+```
+This iteration example suggests that a reverse-0-based design works better than a reverse-1-based design.
+
 
 ## Builder
 See `Segment<T>.Builder` in the .cs file.
