@@ -1,5 +1,5 @@
 # Advanced Extents & Segments Proposal
-Rough sketch -- Version 1a (2019/05/10)
+Rough sketch -- Version 1.2 (2019/05/10)
 
 The potential for advanced Extents and Segments in C# is exciting and under-estimated.  I am writing this proposal because I feel that the current version of the C# 8.0 Range proposal is not yet ready for release.  It would be sad if a half-baked version is released prematurely and set in concrete forever.  Although future extensions are possible in C# 8.5, this becomes difficult when it breaks compatibility with the syntax and design in C# 8.0, therefore it would be best to design the advanced scenarios NOW not later.
 
@@ -212,6 +212,20 @@ If the syntax `[5]` produces an instance of `System.Extent` or `System.Range`, a
 The upcoming decades of never-ending complaints are prevented because it's not confusing anymore when the `-` operator means `-`.
 
 So that's one problem hopefully eliminated.  Next, the second problem needs to be eliminated.  The second problem is what @lostmsu mentioned:  The majority of the reason for this feature to exist is academic scenarios.  The added complexity and performance penalty of supporting negative ordinals may well outweigh the benefit in real-world scenarios (if any meaningful amount of benefit exists at all).  A method of addressing this problem is to collect a good quantity of real examples from real software and then perform an analysis of the cost versus benefit in each example when it is converted to use negative ordinals.
+
+In connection with the academic nature problem, here's one way of eliminating the problem of the dubious at-runtime complexity and performance penalty:  Support this usage of negative ordinals:
+```
+char[] dataArray = ...;
+Span<char> slice = dataArray[20 .. -[5]];
+```
+...but don't support negative ordinals in this case:
+```
+Range r  = [20 .. -[5]];
+Extent x = [20 .. -[5]];
+```
+...because the first example can be implemented with zero penalty at runtime whereas the second example cannot.  In terms of a cost-vs-benefit analysis, the second example is much more difficult to justify than the first example where the total length is known.  This is a matter of finding a reasonable balance or compromise without springing to either extreme.  This isn't a black and white issue.
+
+I'm searching for ways to eliminate the above-mentioned problem because, as a general policy, I always try to eliminate a problem instead of burying my head in the sand and pretending that the problem doesn't exist.  On a few occasions in the past, I've used self-delusion to make myself feel better, but it only worked short-term and in the long run I felt overall worse, so I try not to do that anymore.  (This is a 100% truthful description of my experience in general and it is not directed at any particular participant here. Also note my comments can benefit "invisible" readers here who read this thread but haven't posted any messages.)
 
 
 ## Iteration in reverse order
